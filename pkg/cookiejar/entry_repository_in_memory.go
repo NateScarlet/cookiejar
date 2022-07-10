@@ -19,7 +19,7 @@ func (r *entryRepositoryInMemory) Delete(ctx context.Context, id string) (err er
 	var key = r.keyByID[id]
 	var m = r.m[key]
 	delete(m, id)
-	delete(r.keyByID, key)
+	delete(r.keyByID, id)
 	return
 }
 
