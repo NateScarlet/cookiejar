@@ -4,6 +4,8 @@ import (
 	"bufio"
 	"context"
 	"encoding/json"
+	"errors"
+	"fmt"
 	"io"
 	"os"
 	"sync"
@@ -37,6 +39,10 @@ func (*entryRepository) write(f io.Writer, e ...Entry) (err error) {
 
 func (r *entryRepository) forEachRaw(cb func(i Entry) (err error)) (err error) {
 	f, err := os.Open(r.filename)
+	if errors.Is(err, os.ErrNotExist) {
+		err = nil
+		return
+	}
 	if err != nil {
 		return
 	}
@@ -60,11 +66,21 @@ func (r *entryRepository) forEachRaw(cb func(i Entry) (err error)) (err error) {
 
 // Delete implements EntryRepository
 func (r *entryRepository) Delete(ctx context.Context, id string) (err error) {
+	defer func() {
+		if err != nil {
+			err = fmt.Errorf("cookiejar_file: entryRepository.Delete('%s'): %w", id, err)
+		}
+	}()
 	return r.DeleteMany(ctx, []string{id})
 }
 
 // DeleteMany implements EntryRepository
 func (r *entryRepository) DeleteMany(ctx context.Context, id []string) (err error) {
+	defer func() {
+		if err != nil {
+			err = fmt.Errorf("cookiejar_file: entryRepository.DeleteMany(%s): %w", id, err)
+		}
+	}()
 	r.mu.Lock()
 	defer r.mu.Unlock()
 	f, err := os.OpenFile(r.filename, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0600)
@@ -119,6 +135,11 @@ func (r *entryRepository) Find(ctx context.Context, key string) cookiejar.EntryI
 	r.mu.Lock()
 	defer r.mu.Unlock()
 	return cookiejar.EntryIteratorFunc(func(cb func(i cookiejar.Entry) (err error)) (err error) {
+		defer func() {
+			if err != nil {
+				err = fmt.Errorf("cookiejar_file: entryRepository.Find('%s'): %w", key, err)
+			}
+		}()
 		return r.forEach(func(v Entry) bool { return v.Key == key }, func(i Entry) (err error) {
 			do, err := i.DomainObject()
 			if err != nil {
@@ -132,6 +153,11 @@ func (r *entryRepository) Find(ctx context.Context, key string) cookiejar.EntryI
 
 // Save implements EntryRepository
 func (r *entryRepository) Save(ctx context.Context, entry cookiejar.Entry) (err error) {
+	defer func() {
+		if err != nil {
+			err = fmt.Errorf("cookiejar_file: entryRepository.Save: %w", err)
+		}
+	}()
 	r.mu.Lock()
 	defer r.mu.Unlock()
 	f, err := os.OpenFile(r.filename, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0600)
@@ -149,6 +175,11 @@ func (r *entryRepository) Save(ctx context.Context, entry cookiejar.Entry) (err 
 }
 
 func (r *entryRepository) Compact() (err error) {
+	defer func() {
+		if err != nil {
+			err = fmt.Errorf("cookiejar_file: entryRepository.Compact: %w", err)
+		}
+	}()
 	r.mu.Lock()
 	defer r.mu.Unlock()
 	return util.AtomicSave(r.filename, func(name string) (err error) {
