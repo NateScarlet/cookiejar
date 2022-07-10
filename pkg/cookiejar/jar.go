@@ -13,6 +13,7 @@ import (
 	"net/url"
 	"sort"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/NateScarlet/cookiejar/internal/ascii"
@@ -55,10 +56,11 @@ type Jar interface {
 type jar struct {
 	psList PublicSuffixList
 
-	entryRepo           EntryRepository
-	ctx                 context.Context
-	errorCB             func(err error)
-	creationIndexOffset int
+	entryRepo             EntryRepository
+	ctx                   context.Context
+	errorCB               func(err error)
+	creationIndexOffset   int
+	creationIndexOffsetMu sync.Mutex
 }
 
 // Options are the options for creating a new Jar.
@@ -231,6 +233,8 @@ func (j *jar) setCookies(u *url.URL, cookies []*http.Cookie, now time.Time) (err
 	key := jarKey(host, j.psList)
 	defPath := defaultPath(u.Path)
 
+	j.creationIndexOffsetMu.Lock()
+	defer j.creationIndexOffsetMu.Unlock()
 	for index, cookie := range cookies {
 		err = func() (err error) {
 			e, remove, err := j.newEntry(cookie, now, defPath, host)
