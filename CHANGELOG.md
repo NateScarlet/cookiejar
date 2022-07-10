@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.4](https://github.com/NateScarlet/cookiejar/compare/v0.1.3...v0.1.4) (2022-07-10)
+
+
+### Bug Fixes
+
+* should use lock for jar.creationIndexOffset ([04467ea](https://github.com/NateScarlet/cookiejar/commit/04467eaa3ac22260308ee692155a238c2d28f0b8))
+
 ### [0.1.3](https://github.com/NateScarlet/cookiejar/compare/v0.1.2...v0.1.3) (2022-07-10)
 
 
