@@ -18,6 +18,6 @@ type EntryRepository interface {
 	Find(ctx context.Context, key string) EntryIterator
 	DeleteMany(ctx context.Context, id []string) (err error)
 	Delete(ctx context.Context, id string) (err error)
-	// Save should keep CreationTime and CreationIndex form previously saved entry.
+	// Save should keep CreationTime and CreationIndex from previously saved entry.
 	Save(ctx context.Context, entry Entry) (err error)
 }
