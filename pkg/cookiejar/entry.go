@@ -148,6 +148,8 @@ func EntryFromRepository(
 	return
 }
 
+// CreationIndex determinate cookie order when creation time is same.
+// Only unique when entry created by same jar object.
 func (obj Entry) CreationIndex() int {
 	return obj.creationIndex
 }
