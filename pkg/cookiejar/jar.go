@@ -114,8 +114,7 @@ func newOptions(options ...Option) *Options {
 
 type Option func(opts *Options)
 
-// New returns a new cookie jar. A nil *Options is equivalent to a zero
-// Options.
+// New returns a new cookie jar.
 func New(ctx context.Context, options ...Option) (Jar, error) {
 	var opts = newOptions(options...)
 	jar := &jar{

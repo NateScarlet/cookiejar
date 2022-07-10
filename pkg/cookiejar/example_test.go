@@ -5,12 +5,14 @@
 package cookiejar_test
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
-	"net/http/cookiejar"
 	"net/http/httptest"
 	"net/url"
+
+	"github.com/NateScarlet/cookiejar/pkg/cookiejar"
 )
 
 func ExampleNew() {
@@ -30,8 +32,8 @@ func ExampleNew() {
 		log.Fatal(err)
 	}
 
-	// All users of cookiejar should import "golang.org/x/net/publicsuffix"
-	jar, err := cookiejar.New(&cookiejar.Options{PublicSuffixList: publicsuffix.List})
+	var ctx = context.Background()
+	jar, err := cookiejar.New(ctx)
 	if err != nil {
 		log.Fatal(err)
 	}
