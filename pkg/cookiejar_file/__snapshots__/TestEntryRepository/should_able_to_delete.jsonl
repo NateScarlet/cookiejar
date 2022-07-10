@@ -1,0 +1,2 @@
+{"id":"example.com;example.com;/;a","key":"example.com","name":"a","value":"1","domain":"example.com","path":"/","persistent":true,"hostOnly":true,"expires":"*now*"}
+{"id":"example.com;example.com;/;a","deleted":"*now*"}
