@@ -61,7 +61,7 @@ func (r *entryRepositoryInMemory) Save(ctx context.Context, e Entry) (err error)
 	}
 	if old, ok := m[e.ID()]; ok {
 		e.creation = old.creation
-		e.creationIndex = old.creationIndex
+		e.order = old.order
 	}
 	m[e.ID()] = e
 	r.keyByID[e.ID()] = e.key

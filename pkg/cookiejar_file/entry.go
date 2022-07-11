@@ -50,39 +50,39 @@ func newNullTime(t *time.Time) *nullTime {
 }
 
 type Entry struct {
-	ID            string     `json:"id,omitempty"`
-	Key           string     `json:"key,omitempty"`
-	Name          string     `json:"name,omitempty"`
-	Value         string     `json:"value,omitempty"`
-	Domain        string     `json:"domain,omitempty"`
-	Path          string     `json:"path,omitempty"`
-	SameSite      string     `json:"sameSite,omitempty"`
-	Secure        bool       `json:"secure,omitempty"`
-	HttpOnly      bool       `json:"httpOnly,omitempty"`
-	Persistent    bool       `json:"persistent,omitempty"`
-	HostOnly      bool       `json:"hostOnly,omitempty"`
-	Expires       *time.Time `json:"expires,omitempty"`
-	Creation      *time.Time `json:"creation,omitempty"`
-	CreationIndex int        `json:"creationIndex,omitempty"`
-	Deleted       *time.Time `json:"deleted,omitempty"`
+	ID         string     `json:"id,omitempty"`
+	Key        string     `json:"key,omitempty"`
+	Name       string     `json:"name,omitempty"`
+	Value      string     `json:"value,omitempty"`
+	Domain     string     `json:"domain,omitempty"`
+	Path       string     `json:"path,omitempty"`
+	SameSite   string     `json:"sameSite,omitempty"`
+	Secure     bool       `json:"secure,omitempty"`
+	HttpOnly   bool       `json:"httpOnly,omitempty"`
+	Persistent bool       `json:"persistent,omitempty"`
+	HostOnly   bool       `json:"hostOnly,omitempty"`
+	Expires    *time.Time `json:"expires,omitempty"`
+	Creation   *time.Time `json:"creation,omitempty"`
+	Deleted    *time.Time `json:"deleted,omitempty"`
+	Order      int        `json:"order,omitempty"`
 }
 
 func NewEntry(do cookiejar.Entry) *Entry {
 	return &Entry{
-		ID:            do.ID(),
-		Key:           do.Key(),
-		Name:          do.Name(),
-		Value:         do.Value(),
-		Domain:        do.Domain(),
-		Path:          do.Path(),
-		SameSite:      do.SameSite(),
-		Secure:        do.Secure(),
-		HttpOnly:      do.HttpOnly(),
-		Persistent:    do.Persistent(),
-		HostOnly:      do.HostOnly(),
-		Expires:       nullTime{do.Expires()}.PtrValue(),
-		Creation:      nullTime{do.Creation()}.PtrValue(),
-		CreationIndex: do.CreationIndex(),
+		ID:         do.ID(),
+		Key:        do.Key(),
+		Name:       do.Name(),
+		Value:      do.Value(),
+		Domain:     do.Domain(),
+		Path:       do.Path(),
+		SameSite:   do.SameSite(),
+		Secure:     do.Secure(),
+		HttpOnly:   do.HttpOnly(),
+		Persistent: do.Persistent(),
+		HostOnly:   do.HostOnly(),
+		Expires:    nullTime{do.Expires()}.PtrValue(),
+		Creation:   nullTime{do.Creation()}.PtrValue(),
+		Order:      do.Order(),
 	}
 }
 
@@ -100,6 +100,6 @@ func (obj Entry) DomainObject() (_ *cookiejar.Entry, err error) {
 		obj.HostOnly,
 		newNullTime(obj.Expires).ValueOr(endOfTime),
 		newNullTime(obj.Creation).Value(),
-		obj.CreationIndex,
+		obj.Order,
 	)
 }

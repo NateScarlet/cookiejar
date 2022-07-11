@@ -201,7 +201,7 @@ func (j *jar) cookies(u *url.URL, now time.Time) (cookies []*http.Cookie, err er
 		if !s[i].creation.Equal(s[j].creation) {
 			return s[i].creation.Before(s[j].creation)
 		}
-		return s[i].creationIndex < s[j].creationIndex
+		return s[i].order < s[j].order
 	})
 	for _, e := range selected {
 		cookies = append(cookies, &http.Cookie{Name: e.name, Value: e.value})
@@ -248,7 +248,7 @@ func (j *jar) setCookies(u *url.URL, cookies []*http.Cookie, now time.Time) (err
 				return
 			}
 			e.creation = now
-			e.creationIndex = j.creationIndexOffset + index
+			e.order = j.creationIndexOffset + index
 			err = j.entryRepo.Save(j.ctx, e)
 			if err != nil {
 				return

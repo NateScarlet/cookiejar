@@ -11,19 +11,19 @@ import (
 // This struct type is not used outside of this package per se, but the exported
 // fields are those of RFC 6265.
 type Entry struct {
-	key           string
-	name          string
-	value         string
-	domain        string
-	path          string
-	sameSite      string
-	secure        bool
-	httpOnly      bool
-	persistent    bool
-	hostOnly      bool
-	expires       time.Time
-	creation      time.Time
-	creationIndex int
+	key        string
+	name       string
+	value      string
+	domain     string
+	path       string
+	sameSite   string
+	secure     bool
+	httpOnly   bool
+	persistent bool
+	hostOnly   bool
+	expires    time.Time
+	creation   time.Time
+	order      int
 }
 
 // ID returns the domain;path;name triple of e as an ID.
@@ -128,28 +128,28 @@ func EntryFromRepository(
 	hostOnly bool,
 	expires time.Time,
 	creation time.Time,
-	creationIndex int,
+	order int,
 ) (obj *Entry, err error) {
 	obj = &Entry{
-		key:           key,
-		name:          name,
-		value:         value,
-		domain:        domain,
-		path:          path,
-		sameSite:      sameSite,
-		secure:        secure,
-		httpOnly:      httpOnly,
-		persistent:    persistent,
-		hostOnly:      hostOnly,
-		expires:       expires,
-		creation:      creation,
-		creationIndex: creationIndex,
+		key:        key,
+		name:       name,
+		value:      value,
+		domain:     domain,
+		path:       path,
+		sameSite:   sameSite,
+		secure:     secure,
+		httpOnly:   httpOnly,
+		persistent: persistent,
+		hostOnly:   hostOnly,
+		expires:    expires,
+		creation:   creation,
+		order:      order,
 	}
 	return
 }
 
-// CreationIndex determinate cookie order when creation time is same.
+// Order used when path length and creation time is same.
 // Only unique when entry created by same jar object.
-func (obj Entry) CreationIndex() int {
-	return obj.creationIndex
+func (obj Entry) Order() int {
+	return obj.order
 }

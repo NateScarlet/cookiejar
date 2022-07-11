@@ -101,7 +101,7 @@ func (r *entryRepository) forEach(filter func(i Entry) bool, cb func(i Entry) (e
 		}
 		if old, ok := m[i.ID]; ok {
 			i.Creation = old.Creation
-			i.CreationIndex = old.CreationIndex
+			i.Order = old.Order
 		}
 		m[i.ID] = i
 		return
