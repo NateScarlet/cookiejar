@@ -26,17 +26,6 @@ type entryRepository struct {
 	mu       sync.Mutex
 }
 
-func (*entryRepository) write(f io.Writer, e ...Entry) (err error) {
-	var encoder = json.NewEncoder(f)
-	for _, i := range e {
-		err = encoder.Encode(i)
-		if err != nil {
-			return
-		}
-	}
-	return
-}
-
 func (r *entryRepository) forEachRaw(cb func(i Entry) (err error)) (err error) {
 	f, err := os.Open(r.filename)
 	if errors.Is(err, os.ErrNotExist) {
