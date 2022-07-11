@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/NateScarlet/cookiejar/compare/v0.1.4...v0.2.0) (2022-07-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* rename entry `creationIndex` to `order`
+
+* rename entry `creationIndex` to `order` ([4dbe9cf](https://github.com/NateScarlet/cookiejar/commit/4dbe9cfdb64dc96034067cdb3f70713917f1c790))
+
 ### [0.1.4](https://github.com/NateScarlet/cookiejar/compare/v0.1.3...v0.1.4) (2022-07-10)
 
 
