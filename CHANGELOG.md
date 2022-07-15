@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/NateScarlet/cookiejar/compare/v0.2.0...v0.3.0) (2022-07-15)
+
+
+### ⚠ BREAKING CHANGES
+
+* unexport cookiejar_file.Entry
+
+### Features
+
+* unexport cookiejar_file.Entry ([41d4f04](https://github.com/NateScarlet/cookiejar/commit/41d4f04228d3dd11016227d5a0bb0b4792dc8a70))
+
 ## [0.2.0](https://github.com/NateScarlet/cookiejar/compare/v0.1.4...v0.2.0) (2022-07-11)
 
 ### ⚠ BREAKING CHANGES
