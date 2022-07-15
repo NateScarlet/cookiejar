@@ -49,7 +49,7 @@ func newNullTime(t *time.Time) *nullTime {
 	return &nullTime{*t}
 }
 
-type Entry struct {
+type entry struct {
 	ID         string     `json:"id,omitempty"`
 	Key        string     `json:"key,omitempty"`
 	Name       string     `json:"name,omitempty"`
@@ -67,8 +67,8 @@ type Entry struct {
 	Order      int        `json:"order,omitempty"`
 }
 
-func NewEntry(do cookiejar.Entry) *Entry {
-	return &Entry{
+func newEntry(do cookiejar.Entry) *entry {
+	return &entry{
 		ID:         do.ID(),
 		Key:        do.Key(),
 		Name:       do.Name(),
@@ -86,7 +86,7 @@ func NewEntry(do cookiejar.Entry) *Entry {
 	}
 }
 
-func (obj Entry) DomainObject() (_ *cookiejar.Entry, err error) {
+func (obj entry) DomainObject() (_ *cookiejar.Entry, err error) {
 	return cookiejar.EntryFromRepository(
 		obj.Key,
 		obj.Name,

@@ -25,7 +25,7 @@ type entryRepository struct {
 	mu       sync.Mutex
 }
 
-func (r *entryRepository) forEachRaw(cb func(i Entry) (err error)) (err error) {
+func (r *entryRepository) forEachRaw(cb func(i entry) (err error)) (err error) {
 	f, err := os.Open(r.filename)
 	if errors.Is(err, os.ErrNotExist) {
 		err = nil
@@ -38,7 +38,7 @@ func (r *entryRepository) forEachRaw(cb func(i Entry) (err error)) (err error) {
 
 	var s = bufio.NewScanner(f)
 	for s.Scan() {
-		var i = new(Entry)
+		var i = new(entry)
 		err = json.Unmarshal(s.Bytes(), i)
 		if err != nil {
 			return
@@ -78,7 +78,7 @@ func (r *entryRepository) DeleteMany(ctx context.Context, id []string) (err erro
 	defer f.Close()
 	var encoder = json.NewEncoder(f)
 	for _, i := range id {
-		err = encoder.Encode(Entry{
+		err = encoder.Encode(entry{
 			ID:      i,
 			Deleted: nullTime{time.Now()}.PtrValue(),
 		})
@@ -89,9 +89,9 @@ func (r *entryRepository) DeleteMany(ctx context.Context, id []string) (err erro
 	return
 }
 
-func (r *entryRepository) forEach(filter func(i Entry) bool, cb func(i Entry) (err error)) (err error) {
-	var m = make(map[string]Entry)
-	err = r.forEachRaw(func(i Entry) (err error) {
+func (r *entryRepository) forEach(filter func(i entry) bool, cb func(i entry) (err error)) (err error) {
+	var m = make(map[string]entry)
+	err = r.forEachRaw(func(i entry) (err error) {
 		if !filter(i) {
 			return
 		}
@@ -128,7 +128,7 @@ func (r *entryRepository) Find(ctx context.Context, key string) cookiejar.EntryI
 				err = fmt.Errorf("cookiejar_file: entryRepository.Find('%s'): %w", key, err)
 			}
 		}()
-		return r.forEach(func(v Entry) bool { return v.Key == key }, func(i Entry) (err error) {
+		return r.forEach(func(v entry) bool { return v.Key == key }, func(i entry) (err error) {
 			do, err := i.DomainObject()
 			if err != nil {
 				return
@@ -154,7 +154,7 @@ func (r *entryRepository) Save(ctx context.Context, entry cookiejar.Entry) (err 
 	}
 	defer f.Close()
 	var encoder = json.NewEncoder(f)
-	po := NewEntry(entry)
+	po := newEntry(entry)
 	err = encoder.Encode(po)
 	if err != nil {
 		return
@@ -178,9 +178,9 @@ func (r *entryRepository) Compact() (err error) {
 		defer f.Close()
 
 		var encoder = json.NewEncoder(f)
-		err = r.forEach(func(i Entry) bool {
+		err = r.forEach(func(i entry) bool {
 			return true
-		}, func(i Entry) (err error) {
+		}, func(i entry) (err error) {
 			return encoder.Encode(i)
 		})
 		return
