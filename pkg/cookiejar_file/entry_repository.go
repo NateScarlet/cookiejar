@@ -178,11 +178,12 @@ func (r *entryRepository) Compact() (err error) {
 		defer f.Close()
 
 		var encoder = json.NewEncoder(f)
-		err = r.forEach(func(i entry) bool {
-			return true
-		}, func(i entry) (err error) {
-			return encoder.Encode(i)
-		})
+		err = r.forEach(
+			func(i entry) bool { return true },
+			func(i entry) (err error) {
+				return encoder.Encode(i)
+			},
+		)
 		return
 	})
 }
