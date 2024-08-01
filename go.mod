@@ -4,7 +4,7 @@ go 1.22
 
 require (
 	github.com/NateScarlet/snapshot v0.6.0
-	github.com/stretchr/testify v1.8.0
+	github.com/stretchr/testify v1.9.0
 	golang.org/x/net v0.0.0-20220726230323-06994584191e
 )
 
