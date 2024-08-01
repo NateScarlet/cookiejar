@@ -1,6 +1,6 @@
 module github.com/NateScarlet/cookiejar
 
-go 1.18
+go 1.22
 
 require (
 	github.com/NateScarlet/snapshot v0.6.0
