@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.2](https://github.com/NateScarlet/cookiejar/compare/v0.3.1...v0.3.2) (2024-08-01)
+
+
+### Features
+
+* **deps:** update required go version to 1.22 ([b1f04c5](https://github.com/NateScarlet/cookiejar/commit/b1f04c55fab8910322c89c754fc017807bd750c8))
+
 ### [0.3.1](https://github.com/NateScarlet/cookiejar/compare/v0.3.0...v0.3.1) (2024-08-01)
 
 
