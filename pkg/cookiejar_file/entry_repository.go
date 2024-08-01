@@ -170,13 +170,11 @@ func (r *entryRepository) Compact() (err error) {
 	}()
 	r.mu.Lock()
 	defer r.mu.Unlock()
-	return util.AtomicSave(r.filename, func(name string) (err error) {
-		f, err := os.OpenFile(name, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
+	return util.AtomicSave(r.filename, func(f *os.File) (err error) {
+		err = f.Chmod(0600)
 		if err != nil {
 			return
 		}
-		defer f.Close()
-
 		var encoder = json.NewEncoder(f)
 		err = r.forEach(
 			func(i entry) bool { return true },
